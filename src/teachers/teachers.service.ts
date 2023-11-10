@@ -9,19 +9,19 @@ export class TeachersService {
     @InjectModel('Teacher') private readonly teacherModel: Model<Teacher>,
   ) {}
 
-  async createTeacher(teacher: Teacher) {
+  async createTeacher(teacher: Teacher): Promise<{ id: string }> {
     const teacherModel = new this.teacherModel({
       name: teacher.name,
       subject: teacher.subject,
       department: teacher.department,
     });
     const result = await teacherModel.save();
-    return result.id as string;
+    return { id: result.id };
   }
 
-  async readAll() {
+  async readAll(): Promise<Teacher[]> {
     const teachers = await this.teacherModel.find().exec();
-    return teachers.map(teacher => ({
+    return teachers.map((teacher) => ({
       id: teacher.id,
       name: teacher.name,
       subject: teacher.subject,
@@ -70,10 +70,11 @@ export class TeachersService {
     };
   }
 
-  async deleteTeacher(id: string): Promise<void> {
+  async deleteTeacher(id: string): Promise<{ message: string }> {
     const result = await this.teacherModel.deleteOne({ _id: id }).exec();
     if (result.deletedCount === 0) {
       throw new NotFoundException('Could not find teacher.');
     }
+    return { message: `Teacher of id ${id} deleted` };
   }
 }

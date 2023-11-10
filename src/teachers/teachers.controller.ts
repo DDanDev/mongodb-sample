@@ -17,19 +17,18 @@ export class TeachersController {
   // CREATE
   @Post()
   async createTeacher(@Body() teacher: Teacher): Promise<any> {
-    var result = await this.teachersService.createTeacher(teacher);
-    return { id: result };
+    return await this.teachersService.createTeacher(teacher);
   }
 
   // READ
   @Get()
-  readAll(): Promise<any> {
-    return this.teachersService.readAll();
+  async readAll(): Promise<any> {
+    return await this.teachersService.readAll();
   }
 
   @Get(':id')
-  getTeacher(@Param('id') id: string) {
-    return this.teachersService.getTeacherById(id);
+  async getTeacher(@Param('id') id: string) {
+    return await this.teachersService.getTeacherById(id);
   }
 
   // UPDATE
@@ -41,7 +40,6 @@ export class TeachersController {
   // DELETE
   @Delete(':id')
   async deleteTeacher(@Param('id') id: string): Promise<any> {
-    await this.teachersService.deleteTeacher(id);
-    return { message: 'Teacher deleted successfully' };
+    return await this.teachersService.deleteTeacher(id);
   }
 }

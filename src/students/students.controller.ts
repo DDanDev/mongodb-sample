@@ -17,19 +17,18 @@ export class StudentsController {
   // CREATE
   @Post()
   async createStudent(@Body() student: Student): Promise<any> {
-    var result = await this.studentsService.createStudent(student);
-    return { id: result };
+    return await this.studentsService.createStudent(student);
   }
 
   // READ
   @Get()
-  readAll(): Promise<any> {
-    return this.studentsService.readAll();
+  async readAll(): Promise<any> {
+    return await this.studentsService.readAll();
   }
 
   @Get(':tia')
-  getStudent(@Param('tia') tia: number) {
-    return this.studentsService.getStudentByTIA(tia);
+  async getStudent(@Param('tia') tia: number) {
+    return await this.studentsService.getStudentByTIA(tia);
   }
 
   // UPDATE
@@ -41,7 +40,6 @@ export class StudentsController {
   // DELETE
   @Delete(':tia')
   async deleteStudent(@Param('tia') tia: number) {
-    await this.studentsService.deleteStudent(tia);
-    return null;
+    return await this.studentsService.deleteStudent(tia);
   }
 }
